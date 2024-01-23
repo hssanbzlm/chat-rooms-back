@@ -18,16 +18,6 @@ module.exports.addUser = async (req, res) => {
     }
   } else res.status(200).send("User already exist");
 };
-module.exports.isAdmin = async (req, res, next) => {
-  const { userName, roomCode } = req.body;
-  const userDoc = await user.findOne({ userName });
-  const roomDoc = await chatRoom.findOne({ roomCode });
-  if (userDoc && roomDoc) {
-    if (userDoc._id.toString() == roomDoc.createdBy.toString()) {
-      next();
-    } else res.status(403).send("You are not admin");
-  } else res.status(404).send("Error");
-};
 
 module.exports.join = async (req, res) => {
   const { userName, roomCode } = req.body;
