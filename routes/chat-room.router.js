@@ -3,7 +3,7 @@ const {
   createRoom,
   DeleteRoom,
 } = require("../controllers/chat-room.controller");
-const { isAdmin } = require("../controllers/user.controller");
+const { isAdmin } = require("../middlewares/user.middleware");
 router.post("/create", createRoom);
 router.delete("/destroy", isAdmin, DeleteRoom);
 
