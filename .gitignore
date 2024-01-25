@@ -1,3 +1,4 @@
 node_modules
 config/dev*
 package-lock.json
+index.html
