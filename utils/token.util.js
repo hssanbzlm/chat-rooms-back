@@ -6,10 +6,6 @@ module.exports.signToken = (data, key) => {
 };
 
 module.exports.verifyToken = (token, key) => {
-  try {
-    decoded = jwt.verify(token, key);
-  } catch (err) {
-    decoded = null;
-  }
+  const decoded = jwt.verify(token, key);
   return decoded;
 };
