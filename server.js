@@ -12,7 +12,7 @@ const { errorHandler } = require("./middlewares/error.middleware");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: envConfig.originUrl, credentials: true }));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/chat-room", chatRoomRouter);
