@@ -3,6 +3,10 @@ const chatRoom = require("../models/chat-room.model");
 const { signToken } = require("../utils/token.util");
 const { key, authTokenName } = require("../config");
 
+module.exports.getUserInfo = (req, res) => {
+  res.status(200).json(req.userInfo);
+};
+
 module.exports.join = async (req, res) => {
   if (!req.cookies[authTokenName]) {
     const { userName, roomCode } = req.body;

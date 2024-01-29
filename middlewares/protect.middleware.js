@@ -8,6 +8,6 @@ module.exports.protect = (req, res, next) => {
     if (userInfo) {
       req.userInfo = userInfo;
       next();
-    } else res.end("You are not authorized");
-  } else res.end("You are not authorized");
+    } else res.status(401).end("You are not authorized");
+  } else res.status(401).end("You are not authorized");
 };
