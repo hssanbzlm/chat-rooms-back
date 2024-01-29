@@ -18,11 +18,15 @@ app.use("/api/user", userRouter);
 app.use("/api/chat-room", chatRoomRouter);
 app.use(errorHandler);
 const start = async () => {
-  await connectDb();
-  const server = app.listen(envConfig.port, () => {
-    console.log("I'm listening on port", envConfig.port);
-  });
-  socketListener(server);
+  try {
+    await connectDb();
+    const server = app.listen(envConfig.port, () => {
+      console.log("I'm listening on port", envConfig.port);
+    });
+    socketListener(server);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = start;
