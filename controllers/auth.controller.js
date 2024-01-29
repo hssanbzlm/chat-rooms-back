@@ -11,6 +11,7 @@ module.exports.join = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: "strict",
     };
     if (userDoc && roomDoc) {
       const token = signToken({ userName, roomCode }, key);
