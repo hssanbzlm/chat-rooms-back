@@ -27,7 +27,7 @@ module.exports.saveMessage = async ({ userName, roomCode, content }) => {
 module.exports.getMessages = async (req, res) => {
   const { roomCode, userName } = req.userInfo;
   const list = req.params["list"];
-  const limit = 2;
+  const limit = 20;
   const skip = list * limit - limit;
   const room = await chatRoom.findOne({ roomCode });
   const messages = await message
