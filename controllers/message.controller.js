@@ -23,3 +23,39 @@ module.exports.saveMessage = async ({ userName, roomCode, content }) => {
     return Promise.reject(err);
   }
 };
+
+module.exports.getMessages = async (req, res) => {
+  const { roomCode, userName } = req.userInfo;
+  const list = req.params["list"];
+  const limit = 2;
+  const skip = list * limit - limit;
+  const room = await chatRoom.findOne({ roomCode });
+  const messages = await message
+    .aggregate([
+      { $match: { receiver: { $eq: room._id } } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "_id",
+          as: "sender",
+        },
+      },
+      {
+        $project: {
+          content: 1,
+          date: 1,
+          _id: 1,
+          sender: { $arrayElemAt: ["$sender", 0] },
+          receiver: 1,
+        },
+      },
+      { $addFields: { isMyMessage: { $eq: [userName, "$sender.userName"] } } },
+    ])
+    .sort({ date: 1 })
+    .skip(skip)
+    .limit(limit);
+  const result = { messages, lastList: messages.length < limit };
+
+  res.status(200).send(result);
+};
