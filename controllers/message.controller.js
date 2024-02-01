@@ -16,7 +16,17 @@ module.exports.saveMessage = async ({ userName, roomCode, content }) => {
         sender,
         receiver,
       });
-      if (messageDoc) return Promise.resolve(messageDoc);
+      if (messageDoc)
+        return Promise.resolve({
+          _id: messageDoc._id,
+          content,
+          date,
+          sender: {
+            userName: userDoc.userName,
+            fullName: userDoc.fullName,
+          },
+          receiver,
+        });
       return Promise.reject("Error saving message");
     } else return Promise.reject("Error saving message");
   } catch (err) {
