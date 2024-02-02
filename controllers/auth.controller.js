@@ -18,7 +18,10 @@ module.exports.join = async (req, res) => {
       sameSite: "strict",
     };
     if (userDoc && roomDoc) {
-      const token = signToken({ userName, roomCode }, key);
+      const token = signToken(
+        { _id: userDoc._id, userName, fullName: userDoc.fullName, roomCode },
+        key
+      );
       res.cookie(authTokenName, token, options);
       res.status(200).send("you joined a room successfully");
     } else res.status(404).send("error while joining a room");
