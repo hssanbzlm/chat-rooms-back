@@ -26,9 +26,9 @@ module.exports = (server) => {
     const authToken = cookie.split(`${authTokenName}=`)[1];
     const { roomCode, userName } = verifyToken(authToken, key);
     socket.join(roomCode);
-    socket
-      .to(roomCode)
-      .emit("user-join", { data: `User ${userName} joined the chat` });
+    io.sockets
+      .in(roomCode)
+      .emit("user-join", { _id, userName, fullName, roomCode });
     socket.on("send-message", async (data) => {
       const savedMessage = await saveMessage({
         userName,
