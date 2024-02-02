@@ -24,11 +24,11 @@ module.exports = (server) => {
   io.on("connection", (socket) => {
     const cookie = socket.handshake.headers.cookie;
     const authToken = cookie.split(`${authTokenName}=`)[1];
-    const { roomCode, userName } = verifyToken(authToken, key);
+    const { _id, userName, fullName, roomCode } = verifyToken(authToken, key);
     socket.join(roomCode);
     socket
       .to(roomCode)
-      .emit("user-join", { data: `User ${userName} joined the chat` });
+      .emit("user-join", { _id, userName, fullName, roomCode });
     socket.on("send-message", async (data) => {
       const savedMessage = await saveMessage({
         userName,
