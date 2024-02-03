@@ -8,7 +8,7 @@ const authRouter = require("./routes/auth-router");
 const messageRouter = require("./routes/message.router");
 const envConfig = require("./config");
 const connectDb = require("./database/mongo.database");
-const socketListener = require("./listeners/socket");
+const socketListener = require("./listeners");
 const { errorHandler } = require("./middlewares/error.middleware");
 const { protect } = require("./middlewares/protect.middleware");
 
