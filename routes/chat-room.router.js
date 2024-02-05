@@ -5,7 +5,14 @@ const {
 } = require("../controllers/chat-room.controller");
 const { isAdmin } = require("../middlewares/user.middleware");
 const { protect } = require("../middlewares/protect.middleware");
-router.post("/create", createRoom);
-router.delete("/destroy", protect, isAdmin, DeleteRoom);
+const { asyncErrorHandler } = require("../middlewares/error.middleware");
+
+router.post("/create", asyncErrorHandler(createRoom));
+router.delete(
+  "/destroy",
+  protect,
+  asyncErrorHandler(isAdmin),
+  asyncErrorHandler(DeleteRoom)
+);
 
 module.exports = router;
