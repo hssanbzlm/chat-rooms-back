@@ -4,13 +4,11 @@ module.exports.checkUserExist = async (req, res, next) => {
   const { userName } = req.body;
   const doc = await user.findOne({ userName });
   if (doc) {
-    req.existence = true;
+    res.status(200).send("user exist");
   } else {
-    req.existence = false;
+    next();
   }
-  next();
 };
-
 module.exports.isAdmin = async (req, res, next) => {
   const { userName, roomCode } = req.body;
   const userDoc = await user.findOne({ userName });
