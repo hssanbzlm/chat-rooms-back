@@ -13,7 +13,7 @@ module.exports.createRoom = async (req, res) => {
 };
 
 module.exports.DeleteRoom = async (req, res) => {
-  const { roomCode } = req.body;
+  const { roomCode } = req.userInfo;
   const doc = await chatRoom.findOneAndDelete({ roomCode });
   if (doc) res.status(200).send("Room successfully removed");
   else res.status(404).send("Error removing this room");
