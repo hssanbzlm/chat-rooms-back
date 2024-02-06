@@ -13,8 +13,10 @@ module.exports.createRoom = async (req, res) => {
 };
 
 module.exports.DeleteRoom = async (req, res) => {
-  const { roomCode } = req.userInfo;
-  const doc = await chatRoom.findOneAndDelete({ roomCode });
-  if (doc) res.status(200).send("Room successfully removed");
-  else res.status(404).send("Error removing this room");
+  const { roomCode, isAdmin } = req.userInfo;
+  if (isAdmin) {
+    const doc = await chatRoom.findOneAndDelete({ roomCode });
+    if (doc) res.status(200).send("Room successfully removed");
+    else res.status(404).send("Error removing this room");
+  } else res.status(405).send("You are not allowed");
 };
