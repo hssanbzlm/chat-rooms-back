@@ -30,7 +30,7 @@ module.exports.join = async (req, res) => {
         key
       );
       res.cookie(authTokenName, token, options);
-      res.status(200).send("you joined a room successfully");
+      res.status(200).send({ userName, fullName: userDoc.fullName, isAdmin });
     } else res.status(404).send("error while joining a room");
   } else res.status(200).send("You are already inside a room");
 };
