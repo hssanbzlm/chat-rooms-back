@@ -1,6 +1,7 @@
 const chatRoom = require("../models/chat-room.model");
 const user = require("../models/user.model");
 const uuid = require("uuid");
+const { authTokenName } = require("../config");
 module.exports.createRoom = async (req, res) => {
   const { roomName, userName } = req.body;
   const roomCode = uuid.v4();
@@ -16,7 +17,9 @@ module.exports.DeleteRoom = async (req, res) => {
   const { roomCode, isAdmin } = req.userInfo;
   if (isAdmin) {
     const doc = await chatRoom.findOneAndDelete({ roomCode });
-    if (doc) res.status(200).send("Room successfully removed");
-    else res.status(404).send("Error removing this room");
+    if (doc) {
+      res.clearCookie(authTokenName);
+      res.status(200).send("Room removed successfully");
+    } else res.status(404).send("Error removing this room");
   } else res.status(405).send("You are not allowed");
 };
