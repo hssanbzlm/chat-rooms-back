@@ -9,13 +9,3 @@ module.exports.checkUserExist = async (req, res, next) => {
     next();
   }
 };
-module.exports.isAdmin = async (req, res, next) => {
-  const { userName, roomCode } = req.body;
-  const userDoc = await user.findOne({ userName });
-  const roomDoc = await chatRoom.findOne({ roomCode });
-  if (userDoc && roomDoc) {
-    if (userDoc._id.toString() == roomDoc.createdBy.toString()) {
-      next();
-    } else res.end("You are not an admin");
-  } else res.end("you are not an admin");
-};

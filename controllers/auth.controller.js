@@ -18,8 +18,15 @@ module.exports.join = async (req, res) => {
       sameSite: "strict",
     };
     if (userDoc && roomDoc) {
+      const isAdmin = userDoc._id.toString() == roomDoc.createdBy.toString();
       const token = signToken(
-        { _id: userDoc._id, userName, fullName: userDoc.fullName, roomCode },
+        {
+          _id: userDoc._id,
+          userName,
+          fullName: userDoc.fullName,
+          roomCode,
+          isAdmin,
+        },
         key
       );
       res.cookie(authTokenName, token, options);
