@@ -62,9 +62,10 @@ module.exports.getMessages = async (req, res) => {
       },
       { $addFields: { isMyMessage: { $eq: [userName, "$sender.userName"] } } },
     ])
-    .sort({ date: 1 })
+    .sort({ date: -1 })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .sort({ date: 1 });
   const result = { messages, lastList: messages.length < limit };
 
   res.status(200).send(result);
