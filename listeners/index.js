@@ -13,7 +13,11 @@ module.exports = (server) => {
 
   io.use(socketMiddleware);
 
-  io.on("connection", (socket) => {
-    registerRoomHandler(io, socket);
+  io.on("connection", async (socket) => {
+    try {
+      await registerRoomHandler(io, socket);
+    } catch (err) {
+      console.log(err);
+    }
   });
 };
