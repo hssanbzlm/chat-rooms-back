@@ -14,11 +14,9 @@ module.exports = async (io, socket) => {
       content: payload,
     }).catch((err) => console.log(err));
     if (savedMessage) {
-      socket.to(roomCode).emit("new-message", {
+      io.sockets.in(roomCode).emit("new-message", {
         ...savedMessage,
-        isMyMessage: false,
       });
-      socket.emit("my-new-message", { ...savedMessage, isMyMessage: true });
     }
   };
 
