@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 const envConfig = require("../config");
-const socketMiddelware = require("./socket.middelware");
+const socketMiddleware = require("./socket.middleware");
 const registerRoomHandler = require("./socket.room-handler");
 
 module.exports = (server) => {
@@ -11,7 +11,7 @@ module.exports = (server) => {
     },
   });
 
-  io.use(socketMiddelware);
+  io.use(socketMiddleware);
 
   io.on("connection", (socket) => {
     registerRoomHandler(io, socket);

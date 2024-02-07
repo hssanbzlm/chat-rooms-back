@@ -1,5 +1,5 @@
 const { saveMessage } = require("../controllers/message.controller");
-const getConnectedUsersByRoom = require("./socket.room-connected");
+const { getConnectedUsersByRoom } = require("./socket.room-utils");
 
 module.exports = async (io, socket) => {
   const { roomCode, userName } = socket.data;

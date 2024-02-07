@@ -13,7 +13,7 @@ module.exports.createRoom = async (req, res) => {
   } else res.status(404).send("Error creating a room");
 };
 
-module.exports.DeleteRoom = async (req, res) => {
+module.exports.deleteRoom = async (req, res) => {
   const { roomCode, isAdmin } = req.userInfo;
   if (isAdmin) {
     const doc = await chatRoom.findOneAndDelete({ roomCode });
