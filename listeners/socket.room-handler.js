@@ -19,6 +19,12 @@ module.exports = async (io, socket) => {
       });
     }
   };
+  const handleTypingUsers = (fullName) => {
+    socket.to(roomCode).emit("user-typing", fullName);
+  };
+  const handleNotTypingUsers = (fullName) => {
+    socket.to(roomCode).emit("not-typing", fullName);
+  };
 
   const disconnect = async (reason) => {
     const connectedUsers = await getConnectedUsersByRoom(io, roomCode);
@@ -26,5 +32,7 @@ module.exports = async (io, socket) => {
   };
 
   socket.on("send-message", sendMessage);
+  socket.on("user-typing", handleTypingUsers);
+  socket.on("not-typing", handleNotTypingUsers);
   socket.on("disconnect", disconnect);
 };
