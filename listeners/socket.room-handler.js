@@ -8,15 +8,15 @@ module.exports = async (io, socket) => {
   io.sockets.in(roomCode).emit("user:join", connectedUsers);
 
   const sendMessage = async (payload) => {
-    const savedMessage = await saveMessage({
-      userName,
-      roomCode,
-      content: payload,
-    }).catch((err) => console.log(err));
-    if (savedMessage) {
-      io.sockets.in(roomCode).emit("user:message", {
-        ...savedMessage,
+    try {
+      const savedMessage = await saveMessage({
+        userName,
+        roomCode,
+        content: payload,
       });
+      io.sockets.in(roomCode).emit("user:message", savedMessage);
+    } catch (err) {
+      console.log(err);
     }
   };
   const handleTypingUsers = (fullName) => {
