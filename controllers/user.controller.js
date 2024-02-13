@@ -1,6 +1,8 @@
 const user = require("../models/user.model");
 const { signToken } = require("../utils/token.util");
 const { key, authTokenName } = require("../config");
+const { options } = require("../utils/cookie.util");
+
 module.exports.addUser = async (req, res) => {
   const { userName, fullName } = req.body;
   const doc = await user.create({ userName, fullName });
@@ -18,11 +20,6 @@ module.exports.updateUser = async (req, res) => {
   const updateFields = {
     ...(avatar && { avatar }),
     ...(fullName && { fullName }),
-  };
-  const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
   };
   const userDoc = await user.findOneAndUpdate({ userName }, updateFields, {
     new: true,
