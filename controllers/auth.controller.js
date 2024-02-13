@@ -4,7 +4,8 @@ const { signToken } = require("../utils/token.util");
 const { key, authTokenName } = require("../config");
 
 module.exports.getUserInfo = (req, res) => {
-  res.status(200).json(req.userInfo);
+  const { userName, fullName, isAdmin, avatar } = req.userInfo;
+  res.status(200).json({ userName, fullName, isAdmin, avatar });
 };
 
 module.exports.join = async (req, res) => {
@@ -26,11 +27,17 @@ module.exports.join = async (req, res) => {
           fullName: userDoc.fullName,
           roomCode,
           isAdmin,
+          avatar: userDoc.avatar,
         },
         key
       );
       res.cookie(authTokenName, token, options);
-      res.status(200).json({ userName, fullName: userDoc.fullName, isAdmin });
+      res.status(200).json({
+        userName,
+        fullName: userDoc.fullName,
+        isAdmin,
+        avatar: userDoc.avatar,
+      });
     } else res.status(404).send("error while joining a room");
   } else res.status(200).send("You are already inside a room");
 };
