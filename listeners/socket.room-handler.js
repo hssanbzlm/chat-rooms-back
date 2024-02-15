@@ -7,19 +7,18 @@ module.exports = async (io, socket) => {
   const connectedUsers = await getConnectedUsersByRoom(io, roomCode);
   io.sockets.in(roomCode).emit("user:join", connectedUsers);
 
-  const sendMessage = async (payload) => {
+  const sendMessage = async ({ content, date }) => {
     try {
       const savedMessage = await saveMessage({
         userName,
         roomCode,
-        content: payload,
+        content,
+        date,
       });
-      io.sockets
-        .in(roomCode)
-        .emit("user:message", {
-          ...savedMessage,
-          sender: { ...savedMessage.sender, avatar: avatar },
-        });
+      io.sockets.in(roomCode).emit("user:message", {
+        ...savedMessage,
+        sender: { ...savedMessage.sender, avatar: avatar },
+      });
     } catch (err) {
       console.log(err);
     }

@@ -2,14 +2,13 @@ const message = require("../models/message.model");
 const user = require("../models/user.model");
 const chatRoom = require("../models/chat-room.model");
 
-module.exports.saveMessage = async ({ userName, roomCode, content }) => {
+module.exports.saveMessage = async ({ userName, roomCode, content, date }) => {
   try {
     const userDoc = await user.findOne({ userName });
     const chatRoomDoc = await chatRoom.findOne({ roomCode });
     if (userDoc && chatRoomDoc) {
       const sender = userDoc._id;
       const receiver = chatRoomDoc._id;
-      const date = new Date();
       const messageDoc = await message.create({
         content,
         date,
