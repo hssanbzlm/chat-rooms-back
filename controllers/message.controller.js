@@ -61,7 +61,6 @@ module.exports.getMessages = async (req, res) => {
           receiver: 1,
         },
       },
-      { $addFields: { isMyMessage: { $eq: [userName, "$sender.userName"] } } },
     ])
     .sort({ date: -1 })
     .skip(skip)
