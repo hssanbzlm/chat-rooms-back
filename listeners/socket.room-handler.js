@@ -2,7 +2,7 @@ const { saveMessage } = require("../controllers/message.controller");
 const { getConnectedUsersByRoom } = require("./socket.room-utils");
 
 module.exports = async (io, socket) => {
-  const { roomCode, userName } = socket.data;
+  const { roomCode, userName, avatar } = socket.data;
   socket.join(roomCode);
   const connectedUsers = await getConnectedUsersByRoom(io, roomCode);
   io.sockets.in(roomCode).emit("user:join", connectedUsers);
@@ -14,7 +14,12 @@ module.exports = async (io, socket) => {
         roomCode,
         content: payload,
       });
-      io.sockets.in(roomCode).emit("user:message", savedMessage);
+      io.sockets
+        .in(roomCode)
+        .emit("user:message", {
+          ...savedMessage,
+          sender: { ...savedMessage.sender, avatar: avatar },
+        });
     } catch (err) {
       console.log(err);
     }
