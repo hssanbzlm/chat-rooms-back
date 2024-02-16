@@ -29,6 +29,9 @@ module.exports = async (io, socket) => {
   const handleNotTypingUsers = (fullName) => {
     socket.to(roomCode).emit("user:finish-typing", fullName);
   };
+  const handleRoomDestroy = () => {
+    socket.to(roomCode).emit("room:destroyed");
+  };
 
   const disconnect = async (reason) => {
     const connectedUsers = await getConnectedUsersByRoom(io, roomCode);
@@ -38,5 +41,6 @@ module.exports = async (io, socket) => {
   socket.on("user:message", sendMessage);
   socket.on("user:typing", handleTypingUsers);
   socket.on("user:finish-typing", handleNotTypingUsers);
+  socket.on("room:destroyed", handleRoomDestroy);
   socket.on("disconnect", disconnect);
 };
