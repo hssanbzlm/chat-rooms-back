@@ -71,3 +71,53 @@ module.exports.getMessages = async (req, res) => {
 
   res.status(200).send(result);
 };
+
+module.exports.getPrivateMessages = async (req, res) => {
+  const { userName } = req.userInfo;
+  const withUser = req.params["userName"];
+  const list = req.params["list"];
+  const msgToSkip = +req.query.skip;
+  const limit = 20;
+  const skip = list * limit - limit + msgToSkip;
+  const messages = await message
+    .aggregate([
+      {
+        $match: {
+          receiver: { $in: [userName, withUser] },
+          sender: { $in: [userName, withUser] },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "_id",
+          as: "sender",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "receiver",
+          foreignField: "_id",
+          as: "receiver",
+        },
+      },
+      {
+        $project: {
+          content: 1,
+          date: 1,
+          _id: 1,
+          sender: { $arrayElemAt: ["$sender", 0] },
+          receiver: { $arrayElemAt: ["$receiver", 0] },
+        },
+      },
+    ])
+    .sort({ date: -1 })
+    .skip(skip)
+    .limit(limit)
+    .sort({ date: 1 });
+  const result = { messages, lastList: messages.length < limit };
+
+  res.status(200).send(result);
+};
