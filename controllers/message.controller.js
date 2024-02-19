@@ -1,6 +1,6 @@
 const message = require("../models/message.model");
-const user = require("../models/user.model");
 const chatRoom = require("../models/chat-room.model");
+const mongoose = require("mongoose");
 
 module.exports.saveMessage = async ({
   userName,
@@ -73,8 +73,10 @@ module.exports.getMessages = async (req, res) => {
 };
 
 module.exports.getPrivateMessages = async (req, res) => {
-  const { userName } = req.userInfo;
-  const withUser = req.params["userName"];
+  const { userId } = req.userInfo;
+  const withUser = req.params["userId"];
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+  const withUserObjectId = new mongoose.Types.ObjectId(withUser);
   const list = req.params["list"];
   const msgToSkip = +req.query.skip;
   const limit = 20;
@@ -83,8 +85,12 @@ module.exports.getPrivateMessages = async (req, res) => {
     .aggregate([
       {
         $match: {
-          receiver: { $in: [userName, withUser] },
-          sender: { $in: [userName, withUser] },
+          receiver: {
+            $in: [userObjectId, withUserObjectId],
+          },
+          sender: {
+            $in: [userObjectId, withUserObjectId],
+          },
         },
       },
       {

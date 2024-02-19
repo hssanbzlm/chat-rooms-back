@@ -7,7 +7,7 @@ const { asyncErrorHandler } = require("../middlewares/error.middleware");
 
 router.get("/get-messages/:list", asyncErrorHandler(getMessages));
 router.get(
-  "/get-private-messages/:userName/:list",
+  "/get-private-messages/:userId/:list",
   asyncErrorHandler(getPrivateMessages)
 );
 
