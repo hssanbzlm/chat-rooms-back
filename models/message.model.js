@@ -9,7 +9,6 @@ const messageSchema = new mongoose.Schema({
   },
   receiver: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "chat-room",
   },
 });
 

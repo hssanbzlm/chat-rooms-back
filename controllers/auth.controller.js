@@ -18,10 +18,11 @@ module.exports.join = async (req, res) => {
       const isAdmin = userDoc._id.toString() == roomDoc.createdBy.toString();
       const token = signToken(
         {
-          _id: userDoc._id,
+          userId: userDoc._id,
           userName,
           fullName: userDoc.fullName,
           roomCode,
+          roomId: roomDoc._id,
           roomName: roomDoc.roomName,
           isAdmin,
           avatar: userDoc.avatar,
