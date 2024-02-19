@@ -2,32 +2,34 @@ const message = require("../models/message.model");
 const user = require("../models/user.model");
 const chatRoom = require("../models/chat-room.model");
 
-module.exports.saveMessage = async ({ userName, roomCode, content, date }) => {
+module.exports.saveMessage = async ({
+  userName,
+  fullName,
+  userId,
+  receiver,
+  content,
+  date,
+}) => {
   try {
-    const userDoc = await user.findOne({ userName });
-    const chatRoomDoc = await chatRoom.findOne({ roomCode });
-    if (userDoc && chatRoomDoc) {
-      const sender = userDoc._id;
-      const receiver = chatRoomDoc._id;
-      const messageDoc = await message.create({
+    const sender = userId;
+    const messageDoc = await message.create({
+      content,
+      date,
+      sender,
+      receiver,
+    });
+    if (messageDoc)
+      return Promise.resolve({
+        _id: messageDoc._id,
         content,
         date,
-        sender,
+        sender: {
+          userName: userName,
+          fullName: fullName,
+        },
         receiver,
       });
-      if (messageDoc)
-        return Promise.resolve({
-          _id: messageDoc._id,
-          content,
-          date,
-          sender: {
-            userName: userDoc.userName,
-            fullName: userDoc.fullName,
-          },
-          receiver,
-        });
-      return Promise.reject("Error saving message");
-    } else return Promise.reject("Error saving message");
+    else return Promise.reject("Error saving message");
   } catch (err) {
     return Promise.reject(err);
   }
