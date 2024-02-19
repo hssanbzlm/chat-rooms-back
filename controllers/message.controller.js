@@ -102,20 +102,11 @@ module.exports.getPrivateMessages = async (req, res) => {
         },
       },
       {
-        $lookup: {
-          from: "users",
-          localField: "receiver",
-          foreignField: "_id",
-          as: "receiver",
-        },
-      },
-      {
         $project: {
           content: 1,
           date: 1,
           _id: 1,
           sender: { $arrayElemAt: ["$sender", 0] },
-          receiver: { $arrayElemAt: ["$receiver", 0] },
         },
       },
     ])
