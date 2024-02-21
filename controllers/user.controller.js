@@ -1,6 +1,6 @@
 const user = require("../models/user.model");
 const { signToken } = require("../utils/token.util");
-const { key, authTokenName } = require("../config");
+const { authTokenKey, authTokenName } = require("../config");
 const { options } = require("../utils/cookie.util");
 
 module.exports.addUser = async (req, res) => {
@@ -30,7 +30,7 @@ module.exports.updateUser = async (req, res) => {
         ...req.userInfo,
         ...updateFields,
       },
-      key
+      authTokenKey
     );
     res.clearCookie(authTokenName);
     res.cookie(authTokenName, token, options);

@@ -17,4 +17,4 @@ services:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379
-      - dbUri=mongodb://mongo:27017/chat-rooms
+      - DB_URI=mongodb://mongo:27017/chat-rooms
