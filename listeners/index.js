@@ -3,8 +3,9 @@ const envConfig = require("../config");
 const socketMiddleware = require("./socket.middleware");
 const registerRoomHandler = require("./socket.room-handler");
 const registerPrivateHandler = require("./socket.private-handler");
+const { redisAdapter } = require("./socket.redis-adapter");
 
-module.exports = (server) => {
+module.exports = async (server) => {
   const io = new Server(server, {
     cors: {
       origin: envConfig.originUrl,
@@ -13,6 +14,8 @@ module.exports = (server) => {
   });
 
   io.use(socketMiddleware);
+  const adapter = await redisAdapter();
+  io.adapter(adapter);
 
   io.on("connection", async (socket) => {
     try {
