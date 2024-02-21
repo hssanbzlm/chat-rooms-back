@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mongo:
+    image: "mongo"
+    restart: always
+  redis:
+    image: "redis:latest"
+    restart: always
+  api:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - dbUri=mongodb://mongo:27017/chat-rooms
