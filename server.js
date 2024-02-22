@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const helmet = require("helmet");
 const app = express();
 const userRouter = require("./routes/user.router");
 const chatRoomRouter = require("./routes/chat-room.router");
@@ -15,6 +16,7 @@ const { logger } = require("./logger/logger");
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
 app.use(cors({ origin: envConfig.originUrl, credentials: true }));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
