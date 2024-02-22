@@ -1,6 +1,6 @@
 const { saveMessage } = require("../controllers/message.controller");
 const { getConnectedUsersByRoom } = require("./socket.room-utils");
-
+const { logger } = require("../logger/logger");
 module.exports = async (io, socket) => {
   const { roomCode, userName, avatar, roomId, fullName, userId } = socket.data;
   socket.join(roomCode);
@@ -22,7 +22,7 @@ module.exports = async (io, socket) => {
         sender: { ...savedMessage.sender, avatar: avatar },
       });
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   };
   const handleTypingUsers = (fullName) => {

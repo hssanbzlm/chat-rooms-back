@@ -1,6 +1,7 @@
 const { createClient } = require("redis");
 const { createAdapter } = require("@socket.io/redis-adapter");
 const envConfig = require("../config");
+const { logger } = require("../logger/logger");
 const pubClient = createClient({
   url: `${envConfig.redisURL}`,
 });
@@ -11,6 +12,6 @@ module.exports.redisAdapter = async () => {
     await subClient.connect();
     return createAdapter(pubClient, subClient);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };

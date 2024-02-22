@@ -1,5 +1,5 @@
 const { saveMessage } = require("../controllers/message.controller");
-
+const { logger } = require("../logger/logger");
 module.exports = async (io, socket) => {
   const { userName, avatar, fullName, userId } = socket.data;
   const sendMessage = async ({ to, content, date, privateChatName }) => {
@@ -17,7 +17,7 @@ module.exports = async (io, socket) => {
         sender: { ...savedMessage.sender, avatar: avatar },
       });
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   };
   const joinPrivate = (privateChatName) => {
