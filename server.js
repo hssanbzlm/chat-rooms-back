@@ -11,6 +11,7 @@ const connectDb = require("./database/mongo.database");
 const socketListener = require("./listeners");
 const { errorHandler } = require("./middlewares/error.middleware");
 const { protect } = require("./middlewares/protect.middleware");
+const { logger } = require("./logger/logger");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,11 +25,11 @@ const start = async () => {
   try {
     await connectDb();
     const server = app.listen(envConfig.port, () => {
-      console.log("I'm listening on port", envConfig.port);
+      logger.info("I'm listening on port", envConfig.port);
     });
     socketListener(server);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 

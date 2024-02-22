@@ -4,6 +4,7 @@ const socketMiddleware = require("./socket.middleware");
 const registerRoomHandler = require("./socket.room-handler");
 const registerPrivateHandler = require("./socket.private-handler");
 const { redisAdapter } = require("./socket.redis-adapter");
+const { logger } = require("../logger/logger");
 
 module.exports = async (server) => {
   const io = new Server(server, {
@@ -22,7 +23,7 @@ module.exports = async (server) => {
       await registerRoomHandler(io, socket);
       await registerPrivateHandler(io, socket);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   });
 };
