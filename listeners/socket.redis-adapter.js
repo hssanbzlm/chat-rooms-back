@@ -3,7 +3,11 @@ const { createAdapter } = require("@socket.io/redis-adapter");
 const envConfig = require("../config");
 const { logger } = require("../logger/logger");
 const pubClient = createClient({
-  url: `${envConfig.redisURL}`,
+  password: envConfig.redisPassword,
+  socket: {
+    host: envConfig.redisURL,
+    port: envConfig.redisPort,
+  },
 });
 const subClient = pubClient.duplicate();
 module.exports.redisAdapter = async () => {
