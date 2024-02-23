@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || "development";
+const env = process.env.MIX_ENV || "development";
 envConfig = {};
 if (env === "development") {
   envConfig = require("./development");
