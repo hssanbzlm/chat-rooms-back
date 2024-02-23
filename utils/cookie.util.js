@@ -3,5 +3,5 @@ module.exports.options = {
   httpOnly: true,
   secure: true,
   sameSite: "strict",
-  domain: envConfig.originUrl,
+  domain: "chat-rooms-hssanbzlm.onrender.com",
 };
