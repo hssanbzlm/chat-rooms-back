@@ -10,6 +10,8 @@ const pubClient = createClient({
   },
 });
 const subClient = pubClient.duplicate();
+subClient.on("error", (err) => logger.error(err));
+pubClient.on("error", (err) => logger.error(err));
 module.exports.redisAdapter = async () => {
   try {
     await pubClient.connect();
