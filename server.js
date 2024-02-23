@@ -17,7 +17,7 @@ const { logger } = require("./logger/logger");
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
-app.use(cors({ origin: envConfig.originUrl, credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/chat-room", chatRoomRouter);
