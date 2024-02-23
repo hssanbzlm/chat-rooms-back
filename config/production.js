@@ -2,6 +2,8 @@ const envConfig = {
   port: process.env.PORT,
   dbUri: process.env.DB_URI,
   redisURL: process.env.REDIS_URL,
+  redisPort: process.env.REDIS_PORT,
+  redisPassowrd: process.env.REDIS_PASSWORD,
   authTokenKey: process.env.TOKEN_KEY,
   authTokenName: process.env.AUTH_TOKEN_NAME,
   originUrl: process.env.ORIGIN_URL,
