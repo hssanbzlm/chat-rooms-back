@@ -27,7 +27,7 @@ const start = async () => {
   try {
     await connectDb();
     const server = app.listen(envConfig.port, () => {
-      logger.info("I'm listening on port", envConfig.port);
+      logger.info(`I'm listening on port ${envConfig.port}`);
     });
     socketListener(server);
   } catch (err) {
