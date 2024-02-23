@@ -1,14 +1,9 @@
-const envConfig = require("./development");
-
 const env = process.env.MIX_ENV || "development";
 envConfig = {};
-switch (env) {
-  case "development":
-    envConfig = require("./development");
-    break;
-  case "prod":
-    envConfig = require("./production");
-    break;
+if (env === "development") {
+  envConfig = require("./development");
+} else {
+  envConfig = require("./production");
 }
 
 module.exports = envConfig;
