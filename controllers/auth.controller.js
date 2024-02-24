@@ -46,6 +46,6 @@ module.exports.join = async (req, res) => {
 };
 
 module.exports.leave = (req, res) => {
-  res.clearCookie(authTokenName);
+  res.clearCookie(authTokenName, options);
   res.status(200).send("ok");
 };
