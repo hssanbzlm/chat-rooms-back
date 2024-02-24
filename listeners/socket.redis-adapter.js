@@ -2,13 +2,18 @@ const { createClient } = require("redis");
 const { createAdapter } = require("@socket.io/redis-adapter");
 const envConfig = require("../config");
 const { logger } = require("../logger/logger");
-const pubClient = createClient({
-  password: envConfig.redisPassword,
-  socket: {
-    host: envConfig.redisURL,
-    port: envConfig.redisPort,
-  },
-});
+let pubClient;
+if (process.env.NODE_ENV) {
+  pubClient = createClient({
+    password: envConfig.redisPassword,
+    socket: {
+      host: envConfig.redisURL,
+      port: envConfig.redisPort,
+    },
+  });
+} else {
+  pubClient = createClient({ url: envConfig.redisURL });
+}
 const subClient = pubClient.duplicate();
 subClient.on("error", (err) => logger.error(err));
 pubClient.on("error", (err) => logger.error(err));
