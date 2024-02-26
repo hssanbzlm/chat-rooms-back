@@ -7,10 +7,9 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
 # *Chat-rooms (backend)*
-This is the backend part of chat-rooms web application
+This is the backend part of chat-rooms web application.
 
 ## *Project structure*
-How the projects is structured?
 
 ### index.js 
 - Project entrypoint
@@ -30,11 +29,13 @@ How the projects is structured?
 	- /api/auth/leave *(post)*
 - user router:
 	-	/api/user/add *(post)*
+	-   /api/user/update *(put)*
 - chat-rooms router:
 	- /api/chat-room/create *(post)*
 	- /api/chat-room/destroy *(delete)*
 - messages router
 	- /api/messages/get-messages/:list *(get)*
+	- api/messages/get-private-messages/:userId/:list *(get)*
 ### controllers
 - auth controller:
 	- getUserInfo 
@@ -46,8 +47,10 @@ How the projects is structured?
 - messages controller
 	- saveMessage
 	- getMessages
+	- getPrivateMessages
 - user controller
 	- addUser
+	- updateUser
 
 
 ### middlewares
@@ -59,15 +62,24 @@ How the projects is structured?
 	- protect
 - user 
 	- checkUserExist
+- cloudinary
+	- saveAvatar
+- multer
 ### utils
 - token
 	- signToken
 	- verifyToken
+- cookie
 ### listeners (socket)
 - index
-- middleware
+- socket.middleware
 - socket.room-handler
+- socket.private-handler
 - socket.room-utils
+- socket.redis-adapter
+
+### logger 
+- logger
 
 ### database
 - mongo.database 
@@ -76,6 +88,3 @@ How the projects is structured?
 - chat-room
 - message
 - user
-
-
-
