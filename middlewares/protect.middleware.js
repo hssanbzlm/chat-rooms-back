@@ -4,10 +4,9 @@ const { authTokenName, xsrfSecret } = require("../config");
 module.exports.protect = (req, res, next) => {
   const authToken = req.cookies[authTokenName];
   const csrfToken = req.headers["x-xsrf-token"];
-  if (authToken && csrfToken) {
-    const isCsrfToken = verifyToken(csrfToken, xsrfSecret);
+  if (authToken) {
     const userInfo = verifyToken(authToken, authTokenKey);
-    if (userInfo && isCsrfToken) {
+    if (userInfo) {
       req.userInfo = userInfo;
       next();
     } else res.status(401).end("You are not authorized");
