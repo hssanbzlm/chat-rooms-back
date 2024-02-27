@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --legacy-watch",
     "start": "node index.js"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.0",
     "redis": "^4.6.13",
     "socket.io": "^4.7.4",
     "uuid": "^9.0.1",
