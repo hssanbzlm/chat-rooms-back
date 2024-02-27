@@ -1,8 +1,14 @@
 const user = require("../models/user.model");
 const chatRoom = require("../models/chat-room.model");
 const { signToken } = require("../utils/token.util");
-const { authTokenKey, authTokenName } = require("../config");
+const {
+  authTokenKey,
+  authTokenName,
+  xsrfSecret,
+  xsrfTokenName,
+} = require("../config");
 const { options } = require("../utils/cookie.util");
+const uuid = require("uuid");
 
 module.exports.getUserInfo = (req, res) => {
   const { userName, fullName, isAdmin, avatar, belongsTo, userId } =
@@ -32,7 +38,9 @@ module.exports.join = async (req, res) => {
         },
         authTokenKey
       );
+      const csrfToken = signToken(uuid.v4(), xsrfSecret);
       res.cookie(authTokenName, token, options);
+      res.cookie(xsrfTokenName, csrfToken);
       res.status(200).json({
         userId: userDoc._id,
         userName,
@@ -47,5 +55,6 @@ module.exports.join = async (req, res) => {
 
 module.exports.leave = (req, res) => {
   res.clearCookie(authTokenName, options);
+  res.clearCookie(xsrfTokenName);
   res.status(200).send("ok");
 };

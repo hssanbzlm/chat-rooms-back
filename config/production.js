@@ -6,6 +6,8 @@ const envConfig = {
   redisPassword: process.env.REDIS_PASSWORD,
   authTokenKey: process.env.TOKEN_KEY,
   authTokenName: process.env.AUTH_TOKEN_NAME,
+  xsrfTokenName: process.env.XSRF_TOKEN_NAME,
+  xsrfSecret: process.env.XSRF_SECRET,
   originUrl: process.env.ORIGIN_URL,
   cloudinaryName: process.env.CLOUDINARY_NAME,
   cloudinaryApikey: process.env.CLOUDINARY_API_KEY,
