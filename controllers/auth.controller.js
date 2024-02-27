@@ -40,7 +40,7 @@ module.exports.join = async (req, res) => {
       );
       const csrfToken = signToken(uuid.v4(), xsrfSecret);
       res.cookie(authTokenName, token, options);
-      res.cookie(xsrfTokenName, csrfToken);
+      res.cookie(xsrfTokenName, csrfToken, { sameSite: "none" });
       res.status(200).json({
         userId: userDoc._id,
         userName,
