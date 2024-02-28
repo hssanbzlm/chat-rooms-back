@@ -7,9 +7,9 @@ module.exports.addUser = async (req, res) => {
   const { userName, fullName } = req.body;
   const doc = await user.create({ userName, fullName });
   if (doc) {
-    res.status(200).send("user created successfully");
+    res.status(201).send("user created successfully");
   } else {
-    res.send(404).send("error whiled adding this user");
+    res.send(500).send("error whiled adding this user");
   }
 };
 
@@ -35,5 +35,5 @@ module.exports.updateUser = async (req, res) => {
     res.clearCookie(authTokenName);
     res.cookie(authTokenName, token, options);
     res.status(200).json(userDoc);
-  } else res.status(400).send("Error while updating the user");
+  } else res.status(500).send("Error while updating the user");
 };

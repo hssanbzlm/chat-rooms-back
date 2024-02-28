@@ -8,7 +8,7 @@ module.exports.createRoom = async (req, res) => {
   const createdBy = await user.findOne({ userName });
   if (createdBy && roomCode) {
     const doc = await chatRoom.create({ roomName, roomCode, createdBy });
-    if (doc) res.status(200).send(roomCode);
+    if (doc) res.status(201).send(roomCode);
     else res.status(404).send("Error creating a room");
   } else res.status(404).send("Error creating a room");
 };
@@ -22,5 +22,5 @@ module.exports.deleteRoom = async (req, res) => {
       res.clearCookie(xsrfTokenName);
       res.status(200).send("Room removed successfully");
     } else res.status(404).send("Error removing this room");
-  } else res.status(405).send("You are not allowed");
+  } else res.status(403).send("You are not allowed");
 };
