@@ -12,8 +12,12 @@ module.exports = (socket, next) => {
     if (decodedToken) {
       socket.data = decodedToken;
       next();
-    } else next(new Error("Invalid"));
+    } else {
+      socket.disconnect();
+      next(new Error("Invalid"));
+    }
   } else {
+    socket.disconnect();
     next(new Error("Invalid"));
   }
 };
