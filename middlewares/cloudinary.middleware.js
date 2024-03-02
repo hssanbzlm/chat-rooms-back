@@ -19,3 +19,11 @@ module.exports.saveAvatar = async (req, res, next) => {
     } else res.satus(501).send("Error while saving new avatar");
   } else next();
 };
+
+module.exports.removeAvatar = async (imageURL) => {
+  const imageId = imageURL.slice(
+    imageURL.lastIndexOf("/") + 1,
+    imageURL.lastIndexOf(".")
+  );
+  await cloudinary.uploader.destroy(imageId);
+};
