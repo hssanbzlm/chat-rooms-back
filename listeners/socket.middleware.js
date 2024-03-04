@@ -4,24 +4,16 @@ const { verifyToken } = require("../utils/token.util");
 module.exports = (socket, next) => {
   const cookie = socket.handshake.headers.cookie;
   if (cookie) {
-    const authCookie = cookie
+    const authToken = cookie
       .split(";")
-      .find((v) => v.includes(`${authTokenName}=`));
-    if (authCookie) {
-      const authToken = authCookie.split(`${authTokenName}=`)[1];
-      if (authToken) {
-        const decodedToken = verifyToken(authToken, authTokenKey);
-        if (decodedToken) {
-          socket.data = decodedToken;
-          next();
-        } else {
-          socket.disconnect();
-          next(new Error("Invalid"));
-        }
-      } else {
-        socket.disconnect();
-        next(new Error("Invalid"));
-      }
+      .find((v) => v.includes(`${authTokenName}=`))
+      ?.split(`${authTokenName}=`)[1];
+    const userInfo = authToken
+      ? verifyToken(authToken, authTokenKey)
+      : undefined;
+    if (userInfo) {
+      socket.data = userInfo;
+      next();
     } else {
       socket.disconnect();
       next(new Error("Invalid"));
